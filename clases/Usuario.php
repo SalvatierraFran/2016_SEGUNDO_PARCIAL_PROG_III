@@ -53,8 +53,8 @@ class Usuario {
         $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
         $consulta = $objetoAccesoDato->RetornarConsulta("select * from 'usuarios' WHERE 'id'=$id");
         $consulta->execute();
-        $arrUsuarios = $consulta->fetchAll(PDO::FECH_CLASS, "Usuario");
-        return $arrUsuarios;
+        $misUsuarios = $consulta->fetchAll(PDO::FECH_CLASS, "Usuario");
+        return $misUsuarios;
     }
 
     public static function Agregar($obj) {
@@ -71,13 +71,28 @@ class Usuario {
 
     public static function TraerTodosLosUsuarios() {
 		//IMPLEMENTAR...
+        $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
+        $consulta = $objetoAccesoDato->RetornarConsulta("select * from usuarios");
+        $consulta->execute();
+        $misUsuarios = $consulta->fetchAll(PDO::FETCH_CLASS, "Usuario");
+        return $misUsuarios;
     }
 
     public static function TraerTodosLosPerfiles() {
 		//IMPLEMENTAR...
+        $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
+        $consulta = $objetoAccesoDato->RetornarConsulta("select distinct 'perfil' from 'usuarios'");
+        $consulta->execute();
+        $misUsuarios = $consulta->fetchAll(PDO::FETCH_CLASS);
+        return $misUsuarios;
     }
 
     public static function Borrar($id) {
 		//IMPLEMENTAR...
+        $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
+        $consulta = $objetoAccesoDato->RetornarConsulta("DELETE FROM usuarios WHERE id=:id");
+        $consulta->bindValue(":id", $id, PDO::PARAM_INT);
+        $consulta->Execute();
+        $consulta=null;
     }
 }
