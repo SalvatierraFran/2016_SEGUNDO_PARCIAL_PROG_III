@@ -60,18 +60,17 @@ class Usuario {
     public static function Agregar($obj) {
 		//IMPLEMENTAR...
         $conexion = AccesoDatos::dameUnObjetoAcceso();
-        $consulta = $conexion->RetornarConsulta("INSERT INTO usuarios(id, nombre, email, password, perfil, foto) VALUES (:id, :nombre, :email, :password, :perfil, :foto)");
-        $consulta->bindValue(":id", $obj->_id, PDO::PARAM_INT);
+        $consulta = $conexion->RetornarConsulta("INSERT INTO usuarios(nombre, email, password, perfil, foto) VALUES (:nombre, :email, :password, :perfil, :foto)");
         $consulta->bindValue(":nombre", $obj->_nombre, PDO::PARAM_STR);
         $consulta->bindValue(":email", $obj->_email, PDO::PARAM_STR);
         $consulta->bindValue(":password", $obj->_password, PDO::PARAM_STR);
         $consulta->bindValue(":perfil", $obj->_perfil, PDO::PARAM_STR);
         $consulta->bindValue(":foto", $obj->_foto, PDO::PARAM_STR);
 
-        $sentencia->Execute();
-        $id = $conexion->lastInsertId();
+        $consulta->Execute();
+        $retorno = $conexion->lastInsertId();
         $conexion = null;
-        return $id;
+        return $retorno;
     }
 
     public function ActualizarFoto() {
@@ -80,6 +79,19 @@ class Usuario {
 
     public static function Modificar($obj) {
 		//IMPLEMENTAR...
+        $conexion = AccesoDatos::dameUnObjetoAcceso();
+        $consulta = $conexion->RetornarConsulta("UPDATE usuarios SET nombre=:nombre, email=:email, password=:password, perfil=:perfil, foto=:foto WHERE id=:id");
+        $consulta->bindValue(":id", $this->_id, PDO::PARAM_INT);
+        $consulta->bindValue(":nombre", $this->_nombre, PDO::PARAM_STR);
+        $consulta->bindValue(":email", $this->_email, PDO::PARAM_STR);
+        $consulta->bindValue(":password", $this->_password, PDO::PARAM_STR);
+        $consulta->bindValue(":perfil", $this->_perfil, PDO::PARAM_STR);
+        $consulta->bindValue(":foto", $this->_foto, PDO::PARAM_STR);
+
+        $retorno = $consulta->Execute();
+        $conexion = null;
+
+        return $retorno;
     }
 
     public static function TraerTodosLosUsuarios() {
