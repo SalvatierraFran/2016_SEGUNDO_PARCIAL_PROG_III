@@ -45,7 +45,18 @@ class Usuario {
     
     public static function TraerUsuarioLogueado($obj) {
 		//IMPLEMENTAR...
-        return $this->TraerUnUsuarioPorID($obj->_id);
+        $respuesta = NULL;
+        $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
+        $consulta = $objetoAccesoDato->RetornarConsulta("SELECT * FROM usuarios WHERE email = :correo AND password = :pass"); 
+        $consulta->bindParam(":correo", $obj->correo, PDO::PARAM_STR);
+        $consulta->bindParam(":pass", $obj->pass, PDO::PARAM_STR);
+        $consulta->execute();         
+        $datoUsser = $consulta->fetch(PDO::FETCH_ASSOC);
+        if ($consulta->rowCount() == 1) 
+        {
+           $respuesta = $datoUsser;
+        }
+        return $respuesta;
     }
 
     public static function TraerUnUsuarioPorId($id) {

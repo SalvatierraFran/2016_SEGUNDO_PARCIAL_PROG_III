@@ -2,6 +2,26 @@ function Logout() {//#2
 
 		//IMPLEMENTAR...
 
+		var Pagina = './administracion.php';
+
+		$.ajax({
+			url : Pagina,
+			type : 'POST',
+			dataType : 'text',
+			data : {queMuestro : "2"},
+			async : true,
+		})
+		.done(function (resultado){
+
+			if (resultado == "1") {
+				location.href = './login.php';
+			}
+
+		})
+		.fail(function (resultado){
+			alert("Error");
+		})
+
 }
 function MostrarGrilla() {//#3
 		//IMPLEMENTAR...
