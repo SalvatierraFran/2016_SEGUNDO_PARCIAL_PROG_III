@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>APELLIDO Y NOMBRE DEL ALUMNO</title>
+	<title>Salvatierra Franco</title>
 	  
         <meta charset="UTF-8">
         <!-- jQuery library -->
