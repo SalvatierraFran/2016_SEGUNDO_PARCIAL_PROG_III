@@ -2,7 +2,7 @@ function Logout() {//#2
 
 		//IMPLEMENTAR...
 
-		var Pagina = './administracion.php';
+		var Pagina = 'administracion.php';
 
 		$.ajax({
 			url : Pagina,
@@ -13,13 +13,14 @@ function Logout() {//#2
 		})
 		.done(function (resultado){
 
-			if (resultado == "1") {
-				location.href = './login.php';
+			if (resultado == "chau") {
+				location.href = 'login.php';
+			} else {
+				alert("resultado");
 			}
-
 		})
-		.fail(function (resultado){
-			alert("Error");
+		.fail(function (jqXHR, textStatus, errorThrown) {
+			alert(jqXHR.responseText + "\n" + textStatus + "\n" + errorThrown);
 		})
 
 }
