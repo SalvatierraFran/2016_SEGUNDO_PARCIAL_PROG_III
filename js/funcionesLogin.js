@@ -5,28 +5,34 @@ function Login() {
 		var pass = $("#password").val();
 		var Pagina = "./adminLogin.php";
 
-		var campos = {"correo" : user, "pass" : pass};
-
-		$.ajax({
+		if((user.length == 0 || pass.length == 0))
+    {
+      alert("Campos incompletos");
+    } else {
+      $.ajax({
         type: 'POST',
         url: Pagina,
-        dataType: "json",
-        data: {"userpass" : campos},
+        dataType: 'text',
+        data: {"correo" : user,
+              "pass" : pass},
         async: true
         })
         .done(function (respuesta) {
-
-           if (respuesta.Logueado) {
-
-           		window.location.href="principal.php?userlog=" + respuesta.idUser;
+          alert(respuesta);
+          //return;
+           if(respuesta != "1"){
+              alert("No existe usuario");
            }
            else
            {
-           		alert("Error! Email y/o Contraseña incorrectos");
+              window.location.href = "principal.php";
            }
        
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
             alert(jqXHR.responseText + "\n" + textStatus + "\n" + errorThrown);
         });
+    }
+
+		
 }
