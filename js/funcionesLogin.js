@@ -4,12 +4,12 @@ function Login() {
 		var user = $("#email").val();
 		var pass = $("#password").val();
 		var Pagina = "./adminLogin.php";
-
-		if((user.length == 0 || pass.length == 0))
+		
+	if((user.length == 0 || pass.length == 0))
     {
       alert("Campos incompletos");
     } else {
-      $.ajax({
+     $.ajax({
         type: 'POST',
         url: Pagina,
         dataType: 'text',
@@ -34,5 +34,4 @@ function Login() {
         });
     }
 
-		
 }

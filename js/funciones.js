@@ -1,39 +1,36 @@
 function Logout() {//#2
 
 		//IMPLEMENTAR...
-
-		var Pagina = 'administracion.php';
+		var Pagina = "administracion.php";
 
 		$.ajax({
 			url : Pagina,
-			type : 'POST',
-			dataType : 'text',
-			data : {queMuestro : "2"},
+			type : "POST",
+			dataType : "text",
+			data : {"queMuestro" : "2"},
 			async : true,
 		})
 		.done(function (resultado){
-
-			if (resultado == "chau") {
-				location.href = 'login.php';
+			if (resultado == "Exito") {
+				window.location.href = 'login.php';
 			} else {
-				alert("resultado");
+				alert(resultado);
 			}
 		})
 		.fail(function (jqXHR, textStatus, errorThrown) {
 			alert(jqXHR.responseText + "\n" + textStatus + "\n" + errorThrown);
-		})
-
+		});
 }
 function MostrarGrilla() {//#3
 		//IMPLEMENTAR...
 		var Pagina = 'administracion.php';
 
 		$.ajax({
-			url : Pagina,
 			type : 'POST',
+			url : Pagina,
 			dataType : 'text',
-			data : {queMuestro : "3"},
-			async : 3,
+			data : {"queMuestro" : "3"},
+			async : true
 		})
 		.done(function (resultado){
 			$("#divGrilla").html(resultado);
@@ -44,35 +41,36 @@ function MostrarGrilla() {//#3
 }
 function Home() {//#3-sin case
 		//IMPLEMENTAR...
-		window.location.href = 'principal.php';
+		window.location.href = "principal.php";
 }
-function CargarFormUsuario(opcion, id) {//#4
+function CargarFormUsuario(op = 0, id = 0) {//#4
 		//IMPLEMENTAR...
-		var Pagina = 'administracion.php';
+		var Pagina = "administracion.php";
 
-		switch(opcion){
-			case 1: 
-				queHago = 'Modificar';
+		switch(op)
+		{
+			case 1:
+				op = "Modificar";
 				break;
 			case 2:
-				queHago = 'Eliminar';
+				op = "Eliminar";
 				break;
 			case 3:
-				queHago = 'Editar';
+				op = "Editar";
 				break;
 			case 4:
-				queHago = 'Agregar';
+				op = "Agregar";
 				break;
 		}
 
 		$.ajax({
 			url : Pagina,
-			type : 'POST',
-			dataType : 'text',
-			data : {queMuestro : "4",
-					queHago : queHago,
-					id : parseInt(id)},
-			async : true,
+			type : "POST",
+			dataType : "text",
+			data : {"queMuestro" : "4",
+					"queHago" : op,
+					"id" : parseInt(id)},
+			async : true
 		})
 		.done(function (resultado){
 			$("#divAbm").html(resultado);
@@ -80,55 +78,13 @@ function CargarFormUsuario(opcion, id) {//#4
 		.fail(function (jqXHR, textStatus, errorThrown){
 			alert(jqXHR.responseText + "\n" + textStatus + "\n" + errorThrown);
 		});
-
 }
 function SubirFoto() {//#5
 		//IMPLEMENTAR...
 }
 function AgregarUsuario() {//#6
 		//IMPLEMENTAR...
-		var nombre = $("#txtNombre").val();
-		var email = $("#txtEmail").val();
-		var pass = $("#txtPassword").val();
-		var Pagina = 'administracion.php';
-		var unaFoto = $("#fotoTmp").attr("src");
-
-		if(!Validar(nombre, email, pass))
-		{
-			alert("Campos incompletos");
-			return;
-		}
-
-		var newUsuario = {"id" : $("#hdnIdUsuario").val(),
-						  "nombre" : nombre,
-						  "email" : email,
-						  "perfil" : $("#cboPerfiles").val(),
-						  "password" : password,
-						  "foto" : $("#hdnFotoSubir").val()};
-
-		$.ajax({
-			url : Pagina,
-			type : 'POST',
-			dataType : 'JSON',
-			data : {'queMuestro' : '6',
-					'newUsuario' : newUsuario,
-					'foto' : unaFoto},
-			processData : false,
-			contentType : false,
-			async : true,
-		})
-		.done(function (resultado){
-			alert(resultado.mensaje);
-			if(resultado.exito){
-				$("#divAbm").html("");
-
-				if($("#divGrilla").html().length > 14)
-					MostrarGrilla();
-			}
-		})
-		.fail(function (jqHXR, textStatus, errorThrown){
-			alert(jqHXR.responseText + "\n" + textStatus + "\n" + errorThrown);
-		})
+		
 }
 function EditarUsuario(obj) {//#7 sin case
 		//IMPLEMENTAR...
@@ -140,46 +96,92 @@ function ModificarUsuario() {//#8
 		//IMPLEMENTAR...
 		var user = $("#txtNombre").val();
 		var correo = $("#txtEmail").val();
+		var Pagina = "administracion.php";
 
 		if(user.length == 0 || correo.length == 0)
 		{
 			alert("Campos incompletos");
 		}
 
-		var obj = {"id" : $("#hdnIdUsuario").val(), 
-				"nombre" : user, 
-				"email" : correo, 
-				"perfil" : $("#cboPerfiles").val(), 
-				"foto" : $("#hdnFotoSubir").val()};
+		var obj = {"id" : $("#hdnIdUsuario").val(),
+							  "nombre" : user,
+							  "email" : correo,
+							  "perfil" : $("#cboPerfiles").val(),
+							  "foto" : $("#hdnFotoSubir").val()};
 
 		$.ajax({
-			url : "administracion.php";
-			type : 'POST',
-			dataType : 'json',
-			data : {"queMuestro" : "8",
-					"modificacion" : JSON.stringify(obj),
-					"foto" : $("#fotoTmp").attr("src")}
-			async : true,
+			url : Pagina,
+			type : "POST",
+			dataType : "JSON",
+			data : {"modificacion" : JSON.stringify(obj),
+					"queMuestro" : "8",
+					"foto" : $("#fotoTmp").attr("src")},
+			async : true
 		})
 		.done(function (resultado){
-			
+			alert(resultado.message);
+			if(resultado.Success){
+				if(resultado.usuarioMod){
+					$("#spanDatos").children("h3").html(resultado.userNombreLog + " - " + resultado.usuarioEnSesionPerfil);
+                	$("#spanFoto").children("img").attr("src", resultado.userLogFoto);
+                	if(resultado.userLogPerfil != "administrador")
+                	{
+                		$('.btn.btn-info.animated.bounceInLeft').hide();
+                		if(resultado.usuarioLogPerfil != "usuario"){
+                			$(".btn.btn-primary.animated.bounceInLeft").hide();
+                		}
+                	}
+                }
+                if($("#divGrilla").html().length > 14){
+                	MostrarGrilla();
+                }
+			}
 		})
 }
 function ElegirTheme() {//#9
 		//IMPLEMENTAR...
+		var Pagina = "administracion.php";
+
+		$.ajax({
+			url : Pagina,
+			type : "POST",
+			dataType : "text",
+			data : {"queMuestro" : "9"},
+			async : true
+		})
+		.done(function (resultado){
+			$("#divGrilla").html(resultado);
+		})
+		.fail(function (jqXHR, textStatus, errorThrown) {
+			alert(jqXHR.responseText + "\n" + textStatus + "\n" + errorThrown);
+		});
 }
 function AplicarTheme(radio) {//sin case
 		//IMPLEMENTAR...
+		var colorElegido = $("#" + radio).val();
+		$("#miBody").css("background-color", colorElegido);
 }
 function GuardarTheme() {//#10
 		//IMPLEMENTAR...
-}
+		var colorElegido = $("#miBody").css("background-color");
+		var Pagina = "administracion.php";
 
-function Validar(name, email, pass = 0)
-{
-	if(name.length == 0 || email.length == 0 || (pass !== 0 && pass.length < 6))
-	{
-		return false;
-	}
-	return true;
+		$.ajax({
+			url : Pagina,
+			type : "POST",
+			dataType : "JSON",
+			data : {"queMuestro" : "10",
+					"colorElegido" : colorElegido},
+			async : true
+		})
+		.done(function (resultado){
+			alert(resultado.message);
+
+			if(resultado.Success){
+				$("#divGrilla").html("");
+			}
+		})
+		.fail(function (jqXHR, textStatus, errorThrown) {
+			alert(jqXHR.responseText + "\n" + textStatus + "\n" + errorThrown);
+		});
 }
