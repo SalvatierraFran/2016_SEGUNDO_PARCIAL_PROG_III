@@ -84,7 +84,45 @@ function SubirFoto() {//#5
 }
 function AgregarUsuario() {//#6
 		//IMPLEMENTAR...
-		
+		var user = $("#txtNombre").val();
+		var correo = $("#txtEmail").val();
+		var pass = $("#txtPassword").val();
+		var Pagina = "administracion.php";
+
+		if(user.length == 0 || correo.length == 0 || pass.length == 0)
+		{
+			alert("Campos incompletos");
+		}
+
+		var obj = {"id" : $("#hdnIdUsuario").val(),
+						 "nombre" : user,
+						 "email" : correo,
+						 "perfil" : $("#cboPerfiles").val(),
+						 "password" : pass,
+						 "foto" : $("#hdnFotoSubir").val()};
+
+		$.ajax({
+			url : Pagina,
+			type : 'POST',
+			dataType : "JSON",
+			data : {obj : obj,
+					"queMuestro" : "6",
+					"foto" : $("#fotoTmp").attr("src")},
+			async : true
+		})
+		.done(function (resultado){
+			alert(resultado.message);
+			if(resultado.Success){
+				$("#divAbm").html("");
+
+				if($("#divGrilla").html().length > 14){
+					MostrarGrilla();
+				}
+			}
+		})
+		.fail(function (jqXHR, textStatus, errorThrown) {
+			alert(jqXHR.responseText + "\n" + textStatus + "\n" + errorThrown);
+		});
 }
 function EditarUsuario(obj) {//#7 sin case
 		//IMPLEMENTAR...

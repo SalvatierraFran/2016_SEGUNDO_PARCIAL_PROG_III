@@ -93,9 +93,9 @@ class Usuario {
         $consulta->bindValue(":foto", $obj->foto, PDO::PARAM_STR);
 
         $consulta->Execute();
-        $retorno = $conexion->lastInsertId();
-        $conexion = null;
-        return $retorno;
+        //$retorno = $conexion->lastInsertId();
+        //$conexion = null;
+        return TRUE;
     }
 
     public function ActualizarFoto() {
